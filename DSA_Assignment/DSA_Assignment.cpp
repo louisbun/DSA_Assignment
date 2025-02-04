@@ -1,6 +1,11 @@
 #include <iostream>
 using namespace std;
 
+#include "Movie.h"
+#include "Actor.h"
+#include "List.h"
+#include "Dictionary.h"
+
 int displayMenu() {
     int choice;
 
