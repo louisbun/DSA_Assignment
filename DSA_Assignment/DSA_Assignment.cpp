@@ -3,6 +3,10 @@
 #include <sstream>   // For stringstream (parsing)
 #include "cast.h"
 #include "ActorBST.h"
+#include "Movie.h"
+#include "Actor.h"
+#include "List.h"
+#include "Dictionary.h"
 
 using namespace std;
 Cast castTable;
@@ -59,11 +63,6 @@ void readActors(string filename, ActorBST& actorTree) {
     file.close();
     cout << "Total Actors Inserted: " << actorCount << endl;  // Final count
 }
-
-#include "Movie.h"
-#include "Actor.h"
-#include "List.h"
-#include "Dictionary.h"
 
 int displayMenu() {
     int choice;

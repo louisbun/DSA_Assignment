@@ -92,7 +92,7 @@ T List<T>::get(int index) {
 		}
 		return current->item;
 	}
-	return "nothing";
+	throw std::out_of_range("Index out of bounds");
 }
 
 template<class T>
@@ -113,7 +113,7 @@ void List<T>::print() {
 	Node* current = firstNode;
 
 	while (current != NULL) {
-		cout << current->item << endl;
+		cout << current->item.getTitle() << endl;
 		current = current->next;
 	}
 }

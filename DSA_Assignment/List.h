@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 using namespace std;
-#include "Movie.h";
+#include "Movie.h"
 
 template<class T>
 class List
