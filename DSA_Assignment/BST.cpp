@@ -81,17 +81,77 @@ void BST::collectActorsInRange(BinaryNode* node, int minBirth, int maxBirth, Bin
 }
 
 // Sort actors by birth year using Bubble Sort
-void BST::sortActorsByAge(BinaryNode* actors[], int count) {
-    for (int i = 0; i < count - 1; i++) {
-        for (int j = 0; j < count - i - 1; j++) {
-            if (actors[j]->item.getBirth() > actors[j + 1]->item.getBirth()) {
-                BinaryNode* temp = actors[j];
-                actors[j] = actors[j + 1];
-                actors[j + 1] = temp;
-            }
+//void BST::sortActorsByAge(BinaryNode* actors[], int count) {
+//    for (int i = 0; i < count - 1; i++) {
+//        for (int j = 0; j < count - i - 1; j++) {
+//            if (actors[j]->item.getBirth() > actors[j + 1]->item.getBirth()) {
+//                BinaryNode* temp = actors[j];
+//                actors[j] = actors[j + 1];
+//                actors[j + 1] = temp;
+//            }
+//        }
+//    }
+//}
+
+// Merge function for Merge Sort
+void merge(BinaryNode* actors[], int left, int mid, int right) {
+    int leftSize = mid - left + 1;
+    int rightSize = right - mid;
+
+    BinaryNode** leftArr = new BinaryNode * [leftSize];
+    BinaryNode** rightArr = new BinaryNode * [rightSize];
+
+
+    for (int i = 0; i < leftSize; i++)
+        leftArr[i] = actors[left + i];
+    for (int i = 0; i < rightSize; i++)
+        rightArr[i] = actors[mid + 1 + i];
+
+    int i = 0, j = 0, k = left;
+    while (i < leftSize && j < rightSize) {
+        if (leftArr[i]->item.getBirth() <= rightArr[j]->item.getBirth()) {
+            actors[k] = leftArr[i];
+            i++;
         }
+        else {
+            actors[k] = rightArr[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < leftSize) {
+        actors[k] = leftArr[i];
+        i++;
+        k++;
+    }
+
+    while (j < rightSize) {
+        actors[k] = rightArr[j];
+        j++;
+        k++;
+    }
+
+    delete[] leftArr;
+    delete[] rightArr;
+}
+
+// Merge Sort function
+void mergeSort(BinaryNode* actors[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(actors, left, mid);
+        mergeSort(actors, mid + 1, right);
+        merge(actors, left, mid, right);
     }
 }
+
+// Wrapper function for Merge Sort
+void BST::sortActorsByAge(BinaryNode* actors[], int count) {
+    if (count > 1)
+        mergeSort(actors, 0, count - 1);
+}
+
 
 // Display actors in a given age range (sorted by age)
 void BST::displayActorsByAgeRange(int minAge, int maxAge) {
