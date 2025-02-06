@@ -60,6 +60,11 @@ void readActors(string filename, ActorBST& actorTree) {
     cout << "Total Actors Inserted: " << actorCount << endl;  // Final count
 }
 
+#include "Movie.h"
+#include "Actor.h"
+#include "List.h"
+#include "Dictionary.h"
+
 int displayMenu() {
     int choice;
 
@@ -70,7 +75,7 @@ int displayMenu() {
     cout << "\n[4]  Update actor details";
     cout << "\n[5]  Update movie details";
     cout << "\n[6]  Display actors according to age";
-    cout << "\n[7]  Display mvoies made within the past 3 years";
+    cout << "\n[7]  Display movies made within the past 3 years";
     cout << "\n[8]  Display all movies an actor starred in";
     cout << "\n[9]  Display all actors in a movie";
     cout << "\n[10] Display a list of all actors that a particular actor knows";
