@@ -181,7 +181,7 @@ int main()
             int actorID;
             cout << "Enter Actor ID: ";
             cin >> actorID;
-            castTable.displayKnownActors(actorID);
+            castTable.displayKnownActors(actorID, actorTree);
         }
 
         else 
