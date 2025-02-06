@@ -92,7 +92,7 @@ T List<T>::get(int index) {
 		}
 		return current->item;
 	}
-	throw std::out_of_range("Index out of bounds");
+	return T();
 }
 
 template<class T>
