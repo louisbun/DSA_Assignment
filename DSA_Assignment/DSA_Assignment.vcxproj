@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ActorBST.cpp" />
+    <ClCompile Include="BST.cpp" />
     <ClCompile Include="cast.cpp" />
     <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="DSA_Assignment.cpp" />
@@ -138,6 +139,8 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ActorBST.h" />
+    <ClInclude Include="BinaryNode.h" />
+    <ClInclude Include="BST.h" />
     <ClInclude Include="cast.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="List.h" />
