@@ -27,6 +27,7 @@
 #pragma once
 #include <iostream>
 using namespace std;
+#include "ActorBST.h"
 
 // Linked list node for storing movie IDs
 struct MovieNode {
@@ -69,5 +70,5 @@ public:
     void addActorToMovie(int actorID, int movieID);
     void displayMoviesByActor(int actorID);
     void displayActorsByMovie(int movieID);
-    void displayKnownActors(int actorID);
+    void displayKnownActors(int actorID, ActorBST& actorTree);
 };
