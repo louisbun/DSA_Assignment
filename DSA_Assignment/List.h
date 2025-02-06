@@ -15,6 +15,11 @@ private:
 	Node* firstNode; // point to the first item
 	int size; // number of items in the list
 
+	// helper functions
+	Node* mergeSort(Node* head);
+	Node* getMiddle(Node* head);
+	Node* merge(Node* left, Node* right);
+
 public:
 	// constructor
 	List();
@@ -68,5 +73,6 @@ public:
 	void replace(int index, T item);
 	// int search(ItemType item);
 
+	void mergeSort();
 };
 

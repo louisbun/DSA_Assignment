@@ -10,6 +10,7 @@
 #include "Dictionary.h"
 
 using namespace std;
+
 Cast castTable;
 
 // Function to read cast.csv and store relationships
@@ -75,11 +76,6 @@ void readActors(string filename, BST& actorTree) {
     cout << "Total Actors Inserted: " << actorCount << endl;  // Final count
 }
 
-
-#include "Movie.h"
-#include "Actor.h"
-#include "List.h"
-#include "Dictionary.h"
 
 int displayMenu() {
     int choice;
@@ -264,6 +260,38 @@ void updateMovie(List<Movie>& movieList) {
 
 }
 
+//----------------Function for option 7: display Movies made within the past 3 years
+void displayRecentMovies(List<Movie> movieList) {
+
+    // Create a temporary list to store movies made within the last 3 years
+    List<Movie> recentMovies;
+
+    // Loop through all movies and filter out those made in the last 3 years
+    for (int i = 0; i < movieList.getLength(); i++) {
+        Movie m = movieList.get(i);
+        if (2025 - m.getYear() <= 3) {
+            recentMovies.add(m);
+        }
+    }
+
+    // sort the temp list
+    recentMovies.mergeSort();
+
+    if (recentMovies.getLength() == 0) {
+        cout << "No movies found from the last 3 years." << endl;
+        
+    }
+    else {
+        cout << endl;
+        cout << "Movies made within the past 3 years (in ascending order of year):" << endl;
+        cout << "-----------------------------------------------------------------" << endl;
+        for (int i = 0; i < recentMovies.getLength(); i++) {
+            Movie m = recentMovies.get(i);
+            cout << "ID: " << m.getId() << ", Title: " << m.getTitle() << ", Year: " << m.getYear() << endl;
+        }
+    }
+}
+
 int main()
 {
     BST actorTree;
@@ -363,7 +391,7 @@ int main()
 
         else if (choice == 7)
         {
-
+            displayRecentMovies(movieList);
         }
 
         else if (choice == 8)
