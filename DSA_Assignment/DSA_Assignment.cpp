@@ -124,6 +124,7 @@ void readMovies(string filename, List<Movie>& movieList) {
     file.close();
 }
 
+// -------------- Function for option 2: adding new Movie
 void addMovie(List<Movie>& movieList) {
     string title, plot;
     int year;
@@ -163,6 +164,87 @@ void addMovie(List<Movie>& movieList) {
     movieList.add(newMovie);
 
     cout << "Movie added successfully with ID: " << id << endl;
+}
+
+// -------------- Function for option 5: update movie details
+void updateMovie(List<Movie>& movieList) {
+    int id;
+    int index = -1;
+    while (true) {
+        cout << "Enter the ID of the movie that you want to update: ";
+        cin >> id;
+
+        if (cin.fail()) {
+            cout << "Invalid input! Please enter a valid numeric ID." << endl;
+            cin.clear();  // Clear error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Discard invalid input
+            continue;  // Restart loop
+        }
+
+        // Check if the ID exists in the list
+        for (int i = 0; i < movieList.getLength(); i++) {
+            if (movieList.get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1) {
+            break;  // Valid ID, exit loop
+        }
+        else {
+            cout << "Movie with ID " << id << " not found. Please enter a valid ID." << endl;
+        }
+    }
+
+    cout << "Current Movie details" << endl;
+    cout << "---------------------" << endl;
+    cout << "ID: " << movieList.get(index).getId() << endl;
+    cout << "Title: " << movieList.get(index).getTitle() << endl;
+    cout << "Plot: " << movieList.get(index).getPlot() << endl;
+    cout << "Year: " << movieList.get(index).getYear() << endl;
+    cout << endl;
+
+    string newTitle, newPlot;
+    int newYear;
+
+    cin.ignore();  // Clear input buffer before using getline()
+    cout << "Enter new title (leave blank to keep current): ";
+    getline(cin, newTitle);
+
+    cout << "Enter new plot (leave blank to keep current): ";
+    getline(cin, newPlot);
+
+    // Validate new year input
+    while (true) {
+        cout << "Enter new year (1888 - 2025) or 0 to keep current: ";
+        cin >> newYear;
+
+        if (cin.fail() || (newYear != 0 && (newYear < 1888 || newYear > 2025))) {
+            cout << "Invalid year! Please enter a valid year between 1888 and 2025, or 0 to keep current." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            break;
+        }
+    }
+
+    Movie updatedMovie = movieList.get(index);  // Get a copy of the movie
+
+    if (!newTitle.empty()) updatedMovie.setTitle(newTitle);
+    if (!newPlot.empty()) updatedMovie.setPlot(newPlot);
+    if (newYear != 0) updatedMovie.setYear(newYear);
+
+    movieList.replace(index, updatedMovie);  // Replace the movie in the list
+
+    cout << "Movie updated successfully! This is the new Movie details" << endl;
+    cout << "---------------------" << endl;
+    cout << "ID: " << movieList.get(index).getId() << endl;
+    cout << "Title: " << movieList.get(index).getTitle() << endl;
+    cout << "Plot: " << movieList.get(index).getPlot() << endl;
+    cout << "Year: " << movieList.get(index).getYear() << endl;
+
 }
 
 int main()
@@ -238,7 +320,11 @@ int main()
 
         else if (choice == 5) 
         {
-            
+            cout << "Updating Movie Details" << endl;
+            cout << "----------------------" << endl;
+            cout << endl;
+
+            updateMovie(movieList);
         }
 
         else if (choice == 6) 

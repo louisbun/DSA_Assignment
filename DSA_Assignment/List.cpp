@@ -117,3 +117,18 @@ void List<T>::print() {
 		current = current->next;
 	}
 }
+
+template<class T>
+void List<T>::replace(int index, T item) {
+	if (index < 0 || index >= size) {
+		cout << "Invalid index!" << endl;
+		return;
+	}
+
+	Node* current = firstNode;
+	for (int i = 0; i < index; i++) {
+		current = current->next;
+	}
+
+	current->item = item;  // Replace the item at the given index
+}
