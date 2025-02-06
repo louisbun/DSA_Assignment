@@ -24,6 +24,10 @@
     <ClCompile Include="Movie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ActorBST.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cast.cpp">
     <ClCompile Include="List.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,6 +39,10 @@
     <ClInclude Include="Movie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ActorBST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cast.h">
     <ClInclude Include="List.h">
       <Filter>Header Files</Filter>
     </ClInclude>

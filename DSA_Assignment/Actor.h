@@ -9,6 +9,8 @@ private:
 	int id;
 	string name;
 	int birth;
+	Actor* left;
+	Actor* right; 
 
 public:
 	// getters and setters
@@ -19,6 +21,12 @@ public:
 	void setId(int id);
 	void setName(string name);
 	void setBirth(int birth);
+
+	// Public BST Pointers
+	Actor* getLeft();
+	Actor* getRight();
+	void setLeft(Actor* node);
+	void setRight(Actor* node);
 
 	// constructors
 	Actor();
