@@ -3,6 +3,11 @@
 #include <sstream>   // For stringstream (parsing)
 #include "cast.h"
 #include "BST.h"
+#include "ActorBST.h"
+#include "Movie.h"
+#include "Actor.h"
+#include "List.h"
+#include "Dictionary.h"
 
 using namespace std;
 Cast castTable;
@@ -63,7 +68,7 @@ void readActors(string filename, BST& actorTree) {
         actorTree.insert(newActor);
 
         actorCount++;
-        cout << "Inserted Actor: " << id << " - " << name << " (" << birth << ")\n"; // Debugging output
+        //cout << "Inserted Actor: " << id << " - " << name << " (" << birth << ")\n"; // Debugging output
     }
 
     file.close();
@@ -100,12 +105,103 @@ int displayMenu() {
     return choice;
 }
 
+void readMovies(string filename, List<Movie>& movieList) {
+    ifstream file(filename);
+
+    if (!file) {
+        cerr << "Error: Unable to open file " << filename << endl;
+        return;
+    }
+
+    string line;
+    getline(file, line);
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        int id, year;
+        string title, plot;
+
+        // Read integer ID directly
+        ss >> id;
+        ss.ignore(); // Ignore the tab separator
+
+        // Read Title
+        getline(ss, title, ',');
+
+        // Read Plot
+        getline(ss, plot, ',');
+
+        // Read integer Year directly
+        ss >> year;
+
+        Movie movie(id, title, plot, year);
+        movieList.add(movie);
+    }
+
+    file.close();
+}
+
+void addMovie(List<Movie>& movieList) {
+    string title, plot;
+    int year;
+    cout << "Enter the title of Movie: ";
+    getline(cin, title);
+
+    cout << "Enter plot of the movie: ";
+    getline(cin, plot);
+
+    // Validate year input
+    while (true) {
+        cout << "Enter the movie's year of release: ";
+        cin >> year;
+
+        if (cin.fail() || year < 1888 || year > 2025) {
+            cout << "Invalid input! Please enter a valid year (1888 - 2025)." << endl;
+            cin.clear();  // Clear error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Discard invalid input
+        }
+        else {
+            break;  // Valid input, exit loop
+        }
+    }
+
+    // searching for largest Movie id in the list
+    int id = 1;
+    for (int i = 0; i < movieList.getLength(); i++) {
+        Movie m = movieList.get(i);
+        if (m.getId() > id) {
+            id = m.getId();
+        }
+    }
+    id += 1; //id for the new movie
+
+    //adding new movie to the list
+    Movie newMovie(id, title, plot, year);
+    movieList.add(newMovie);
+
+    cout << "Movie added successfully with ID: " << id << endl;
+}
 
 int main()
 {
     BST actorTree;
     readActors("actors.csv", actorTree);
     readCast("cast.csv", castTable, actorTree);
+
+    List<Movie> movieList; //creating movie list
+    readMovies("movies.csv", movieList); //reading movies.csv and adding to movieList
+    
+    ////---------------------------- testing movies data
+    //int l = movieList.getLength();
+    //cout << l << endl;
+    //Movie m = movieList.get(0);
+    //Movie m17214 = movieList.get(17213);
+    //cout << m.getId() << m.getTitle() << m.getPlot() << m.getYear() << endl;
+    //cout << m17214.getId() << m17214.getTitle() << m17214.getPlot() << m17214.getYear() << endl;
+    ////----------------------------------
+
+
+
     int choice;
     
     do {
@@ -132,7 +228,12 @@ int main()
 
         else if (choice == 2) 
         {
-            
+            cout << "Adding a new Movie" << endl;
+            cout << "------------------" << endl;
+            cout << endl;
+
+            addMovie(movieList);
+
         }
 
         else if (choice == 3) 
