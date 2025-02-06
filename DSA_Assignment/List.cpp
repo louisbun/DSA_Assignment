@@ -132,3 +132,69 @@ void List<T>::replace(int index, T item) {
 
 	current->item = item;  // Replace the item at the given index
 }
+
+
+template<class T>
+void List<T>::mergeSort() {
+	firstNode = mergeSort(firstNode); 
+}
+
+template<class T>
+struct List<T>::Node* List<T>::mergeSort(Node* head) {
+	if (head == nullptr || head->next == nullptr) {
+		return head;  // Base case: single element or empty list is already sorted
+	}
+
+	// Step 1: Split the list into two halves
+	Node* mid = getMiddle(head);
+	Node* left = head;
+	Node* right = mid->next;
+	mid->next = nullptr;  // Split the list
+
+	// Step 2: Recursively sort the two halves
+	left = mergeSort(left);
+	right = mergeSort(right);
+
+	// Step 3: Merge the two sorted halves
+	return merge(left, right);
+}
+
+// Helper function to find the middle of the list
+template<class T>
+struct List<T>::Node* List<T>::getMiddle(Node* head) {
+	if (head == nullptr) {
+		return nullptr;
+	}
+
+	Node* slow = head;
+	Node* fast = head;
+
+	// Move fast by 2 and slow by 1
+	while (fast->next != nullptr && fast->next->next != nullptr) {
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+
+	return slow;
+}
+
+// Merge two sorted lists into one sorted list
+template<class T>
+struct List<T>::Node* List<T>::merge(Node* left, Node* right) {
+	if (left == nullptr) return right;
+	if (right == nullptr) return left;
+
+	Node* mergedHead = nullptr;
+
+	// Compare nodes and merge
+	if (left->item.getYear() < right->item.getYear()) {
+		mergedHead = left;
+		mergedHead->next = merge(left->next, right);
+	}
+	else {
+		mergedHead = right;
+		mergedHead->next = merge(left, right->next);
+	}
+
+	return mergedHead;
+}
