@@ -1,33 +1,58 @@
 ﻿//#pragma once
 //#include <iostream>
-//#include <vector>
-//#include <unordered_map>
-//#include <set>
 //using namespace std;
+//#include "ActorBST.h"
 //
+//// Linked list node for storing movie IDs
+//struct MovieNode {
+//    int movieID;
+//    MovieNode* next;
+//    MovieNode(int id) : movieID(id), next(nullptr) {}
+//};
+//
+//// Linked list node for storing actor IDs
+//struct ActorNode {
+//    int actorID;
+//    ActorNode* next;
+//    ActorNode(int id) : actorID(id), next(nullptr) {}
+//};
+//
+//// Linked list for storing all movies an actor has acted in
+//struct ActorMovieList {
+//    int actorID;
+//    MovieNode* movieHead;
+//    ActorMovieList* next;
+//    ActorMovieList(int id) : actorID(id), movieHead(nullptr), next(nullptr) {}
+//};
+//
+//// Linked list for storing all actors in a movie
+//struct MovieActorList {
+//    int movieID;
+//    ActorNode* actorHead;
+//    MovieActorList* next;
+//    MovieActorList(int id) : movieID(id), actorHead(nullptr), next(nullptr) {}
+//};
+//
+//// Class to manage actor-movie relationships
 //class Cast {
 //private:
-//    unordered_map<int, vector<int>> actorToMovies; // Maps actor_id → list of movie_ids
-//    unordered_map<int, vector<int>> movieToActors; // Maps movie_id → list of actor_ids
+//    ActorMovieList* actorMovieHead; // Stores actors & their movies
+//    MovieActorList* movieActorHead; // Stores movies & their actors
 //
 //public:
-//    // Insert relationship between actor and movie
+//    Cast();
 //    void addActorToMovie(int actorID, int movieID);
-//
-//    // Display all movies an actor starred in (sorted alphabetically)
 //    void displayMoviesByActor(int actorID);
-//
-//    // Display all actors in a movie (sorted alphabetically)
 //    void displayActorsByMovie(int movieID);
-//
-//    // Display all actors that a particular actor knows
-//    void displayKnownActors(int actorID);
+//    void displayKnownActors(int actorID, ActorBST& actorTree);
 //};
 
 #pragma once
 #include <iostream>
+#include "BST.h"
+#include "BinaryNode.h"
+
 using namespace std;
-#include "ActorBST.h"
 
 // Linked list node for storing movie IDs
 struct MovieNode {
@@ -36,19 +61,19 @@ struct MovieNode {
     MovieNode(int id) : movieID(id), next(nullptr) {}
 };
 
-// Linked list node for storing actor IDs
+// Linked list node for storing actors (BinaryNode* instead of actorID)
 struct ActorNode {
-    int actorID;
+    BinaryNode* actor;
     ActorNode* next;
-    ActorNode(int id) : actorID(id), next(nullptr) {}
+    ActorNode(BinaryNode* actorNode) : actor(actorNode), next(nullptr) {}
 };
 
 // Linked list for storing all movies an actor has acted in
 struct ActorMovieList {
-    int actorID;
+    BinaryNode* actor;
     MovieNode* movieHead;
     ActorMovieList* next;
-    ActorMovieList(int id) : actorID(id), movieHead(nullptr), next(nullptr) {}
+    ActorMovieList(BinaryNode* actorNode) : actor(actorNode), movieHead(nullptr), next(nullptr) {}
 };
 
 // Linked list for storing all actors in a movie
@@ -67,8 +92,9 @@ private:
 
 public:
     Cast();
-    void addActorToMovie(int actorID, int movieID);
-    void displayMoviesByActor(int actorID);
+    void addActorToMovie(BinaryNode* actor, int movieID);
+    void displayMoviesByActor(BinaryNode* actor);
     void displayActorsByMovie(int movieID);
-    void displayKnownActors(int actorID, ActorBST& actorTree);
+    void displayKnownActors(BinaryNode* actor, BST& actorTree);
 };
+

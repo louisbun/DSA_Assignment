@@ -2,13 +2,13 @@
 #include <fstream>   // For ifstream (file handling)
 #include <sstream>   // For stringstream (parsing)
 #include "cast.h"
-#include "ActorBST.h"
+#include "BST.h"
 
 using namespace std;
 Cast castTable;
 
 // Function to read cast.csv and store relationships
-void readCast(string filename, Cast& castTable) {
+void readCast(string filename, Cast& castTable, BST& actorTree) {
     ifstream file(filename);
     if (!file) {
         cerr << "Error: Unable to open file " << filename << endl;
@@ -24,15 +24,23 @@ void readCast(string filename, Cast& castTable) {
         ss.ignore();  // Ignore separator
         if (!(ss >> movieID)) continue; // Read movie ID
 
-        castTable.addActorToMovie(actorID, movieID); // Store in adjacency list
+        // Search for the actor in the BST
+        BinaryNode* actorNode = actorTree.search(actorID);
+        if (actorNode) {
+            castTable.addActorToMovie(actorNode, movieID); // Add using BinaryNode*
+        }
+        else {
+            cout << "Warning: Actor ID " << actorID << " not found in BST. Skipping entry.\n";
+        }
     }
 
     file.close();
     cout << "Cast relationships loaded successfully!\n";
 }
 
+
 // Function to read actors from a CSV file and insert them into the BST
-void readActors(string filename, ActorBST& actorTree) {
+void readActors(string filename, BST& actorTree) {
     ifstream file(filename);
     if (!file) {
         cerr << "Error: Unable to open file " << filename << endl;
@@ -46,11 +54,13 @@ void readActors(string filename, ActorBST& actorTree) {
         string name;
 
         if (!(ss >> id)) continue; // Read actor ID
-        ss.ignore(); // Ignore the whitespace or comma separator
+        ss.ignore(); // Ignore whitespace or comma separator
         getline(ss, name, ','); // Read actor name
         if (!(ss >> birth)) continue; // Read birth year
 
-        actorTree.insert(id, name, birth); // Insert into BST
+        // Create an Actor object and insert it into BST
+        Actor newActor(id, name, birth);
+        actorTree.insert(newActor);
 
         actorCount++;
         cout << "Inserted Actor: " << id << " - " << name << " (" << birth << ")\n"; // Debugging output
@@ -59,6 +69,7 @@ void readActors(string filename, ActorBST& actorTree) {
     file.close();
     cout << "Total Actors Inserted: " << actorCount << endl;  // Final count
 }
+
 
 #include "Movie.h"
 #include "Actor.h"
@@ -92,9 +103,9 @@ int displayMenu() {
 
 int main()
 {
-    ActorBST actorTree;
+    BST actorTree;
     readActors("actors.csv", actorTree);
-    readCast("cast.csv", castTable);
+    readCast("cast.csv", castTable, actorTree);
     int choice;
     
     do {
@@ -111,7 +122,11 @@ int main()
             getline(cin, name);
             cout << "Enter Actor Birth Year: ";
             cin >> birth;
-            actorTree.insert(id, name, birth);
+
+            // Insert new actor object
+            Actor newActor(id, name, birth);
+            actorTree.insert(newActor);
+
             cout << "Actor added successfully!\n";
         }
 
@@ -169,7 +184,8 @@ int main()
             int actorID;
             cout << "Enter Actor ID: ";
             cin >> actorID;
-            castTable.displayMoviesByActor(actorID);
+            BinaryNode* actor = actorTree.search(actorID);
+            castTable.displayMoviesByActor(actor);
         }
 
         else if (choice == 9)
@@ -182,7 +198,8 @@ int main()
             int actorID;
             cout << "Enter Actor ID: ";
             cin >> actorID;
-            castTable.displayKnownActors(actorID, actorTree);
+            BinaryNode* actor = actorTree.search(actorID);
+            castTable.displayKnownActors(actor, actorTree);
         }
 
         else 
