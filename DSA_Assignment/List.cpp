@@ -96,6 +96,19 @@ T List<T>::get(int index) {
 }
 
 template<class T>
+T& List<T>::getReference(int index) {
+	if (index < 0 || index >= size) {
+		throw out_of_range("Index out of bounds");  // error handling
+	}
+
+	Node* current = firstNode;
+	for (int i = 0; i < index; i++) {
+		current = current->next;
+	}
+	return current->item;
+}
+
+template<class T>
 bool List<T>::isEmpty() {
 	if (size == 0) {
 		return true;

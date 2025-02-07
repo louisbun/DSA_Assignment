@@ -81,11 +81,13 @@ int displayMenu() {
     int choice;
 
     cout << "\n------------------- Menu ---------------------------------------";
+    cout << "\nAdministrator Options" << endl;
     cout << "\n[1]  Add a new actor";
     cout << "\n[2]  Add new movie";
     cout << "\n[3]  Add an actor to a movie";
     cout << "\n[4]  Update actor details";
-    cout << "\n[5]  Update movie details";
+    cout << "\n[5]  Update movie details" << endl;
+    cout << "\nUser Options" << endl;
     cout << "\n[6]  Display actors according to age";
     cout << "\n[7]  Display movies made within the past 3 years";
     cout << "\n[8]  Display all movies an actor starred in";
@@ -135,6 +137,43 @@ void readMovies(string filename, List<Movie>& movieList) {
     }
 
     file.close();
+}
+
+void insertActorsToMovies(string filename, BST& actorTree, List<Movie>& movieList) {
+    ifstream file(filename);
+    if (!file) {
+        cerr << "Error: Unable to open file " << filename << endl;
+        return;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        int actorID, movieID;
+
+        if (!(ss >> actorID)) continue; // Read actor ID
+        ss.ignore();  // Ignore separator
+        if (!(ss >> movieID)) continue; // Read movie ID
+
+        //Search for the Actor in BST
+        BinaryNode* actorNode = actorTree.search(actorID);
+        if (!actorNode) {
+            cout << "Warning: Actor ID " << actorID << " not found in BST. Skipping entry.\n";
+            continue;
+        }
+
+        // 2. Search for the Movie in the Linked List
+        for (int i = 0; i < movieList.getLength(); i++) {
+            Movie& movie = movieList.getReference(i);  //  Get reference
+            if (movie.getId() == movieID) {
+                movie.getActors().insert(actorNode->item); //  Modify the movie in the list
+                break;  
+            }
+        }
+    }
+
+    file.close();
+    cout << "Cast relationships added to movies successfully!\n";
 }
 
 // -------------- Function for option 2: adding new Movie
@@ -292,6 +331,8 @@ void displayRecentMovies(List<Movie> movieList) {
     }
 }
 
+
+
 int main()
 {
     BST actorTree;
@@ -310,7 +351,18 @@ int main()
     //cout << m17214.getId() << m17214.getTitle() << m17214.getPlot() << m17214.getYear() << endl;
     ////----------------------------------
 
+    //Adding actors to movies----------------
+    insertActorsToMovies("cast.csv", actorTree, movieList);
 
+    ////-----------------------testing inserted actors in movies---------------
+    //int idtest = 117600;
+    //for (int i = 0; i < movieList.getLength(); i++) {
+    //    if (movieList.get(i).getId() == idtest) {
+    //        Movie m117600 = movieList.get(i);
+    //        m117600.getActors().displaySorted();
+    //    }
+    //}
+    ////------------------------------------------------------------------------
 
     int choice;
     
@@ -417,14 +469,16 @@ int main()
             castTable.displayKnownActors(actor, actorTree);
         }
 
+        else if (choice == 0) {
+            cout << "\nExiting ..." << endl;
+        }
+
         else 
         {
             cout << "Invalid choice." << endl;
         }
 
     } while (choice != 0);  // Continue until the user chooses to exit
-    
-    cout << "\nExiting ..." << endl;
 
     return 0;
 }

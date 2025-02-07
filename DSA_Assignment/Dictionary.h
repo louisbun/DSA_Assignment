@@ -1,11 +1,13 @@
 #pragma once
 #include<iostream>
 #include "Actor.h"
+#include "Movie.h"
 using namespace std;
 
 const int MAX_SIZE = 101;
 typedef int KeyType;
 typedef Actor ItemType;
+typedef Movie ItemType2;
 
 struct Node
 {

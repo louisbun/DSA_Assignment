@@ -9,6 +9,7 @@
     <ClCompile Include="List.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="BST.cpp" />
+    <ClCompile Include="ArrayList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -19,5 +20,6 @@
     <ClInclude Include="Movie.h" />
     <ClInclude Include="BST.h" />
     <ClInclude Include="BinaryNode.h" />
+    <ClInclude Include="ArrayList.h" />
   </ItemGroup>
 </Project>
