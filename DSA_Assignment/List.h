@@ -73,7 +73,7 @@ public:
 	void print();
 
 	void replace(int index, T item);
-	// int search(ItemType item);
+	int search(int movieId);
 
 	void mergeSort();
 };

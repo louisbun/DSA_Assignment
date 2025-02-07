@@ -26,7 +26,7 @@ int Dictionary::hash(KeyType key) {
 	return key % MAX_SIZE;
 }
 
-bool Dictionary::add(KeyType newKey, ItemType newItem) {
+bool Dictionary::add(KeyType newKey, ItemType2 newItem) {
 	int hashValue = hash(newKey);
 
 	Node* newNode = new Node;
@@ -86,7 +86,19 @@ void Dictionary::remove(KeyType key) {
 	}
 }
 
-ItemType Dictionary::get(KeyType key) {
+ItemType2 Dictionary::get(KeyType key) {
+	int hashValue = hash(key);
+	Node* current = items[hashValue];
+	while (current != nullptr) {
+		if (current->key == key) {
+			return current->item;
+		}
+		current = current->next;
+	}
+	return ItemType2();
+}
+
+ItemType2& Dictionary::getReference(KeyType key) {
 	int hashValue = hash(key);
 	Node* current = items[hashValue];
 	while (current != nullptr) {
@@ -109,7 +121,7 @@ void Dictionary::print() {
 	for (int i = 0; i < MAX_SIZE; i++) {
 		Node* current = items[i];
 		while (current != nullptr) {
-			cout << current->key << " : " << current->item.getName() << endl;
+			cout << current->key << " : " << current->item.getTitle() << endl;
 			current = current->next;
 		}
 	}
