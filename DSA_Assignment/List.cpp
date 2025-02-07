@@ -211,3 +211,22 @@ struct List<T>::Node* List<T>::merge(Node* left, Node* right) {
 
 	return mergedHead;
 }
+
+template<class T>
+int List<T>::search(int movieId) {
+	Node* current = firstNode;
+	int index = 0;
+
+	// Traverse the list
+	while (current != nullptr) {
+		// Compare the movieId in the current node's item with the provided movieId
+		if (current->item.getId() == movieId) {
+			return index;  // Movie found, return the index
+		}
+		current = current->next;  // Move to the next node
+		index++;  // Increment the index
+	}
+
+	// Movie not found, return -1
+	return -1;
+}

@@ -12,7 +12,7 @@ typedef Movie ItemType2;
 struct Node
 {
 	KeyType	 key;   // search key
-	ItemType item;	// data item
+	ItemType2 item;	// data item
 	Node* next;	// pointer pointing to next item with same search key
 };
 
@@ -37,7 +37,7 @@ public:
 	// pre : none
 	// post: new item is added to the Dictionary
 	//       size of Dictionary is increased by 1
-	bool add(KeyType newKey, ItemType newItem);
+	bool add(KeyType newKey, ItemType2 newItem);
 
 	// remove an item with the specified key in the Dictionary
 	// pre : key must exist in the Dictionary
@@ -50,7 +50,8 @@ public:
 	// pre : key must exist in the dictionary
 	// post: none
 	// return the item with the specified key from the Dictionary
-	ItemType get(KeyType key);
+	ItemType2 get(KeyType key);
+	ItemType2& getReference(KeyType key);
 
 	// check if the Dictionary is empty
 	// pre : none

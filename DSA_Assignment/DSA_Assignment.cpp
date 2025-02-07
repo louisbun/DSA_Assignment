@@ -138,6 +138,47 @@ void readMovies(string filename, List<Movie>& movieList) {
 
     file.close();
 }
+void readMovies(string filename, Dictionary& movieDict) {
+    ifstream file(filename);
+
+    if (!file) {
+        cerr << "Error: Unable to open file " << filename << endl;
+        return;
+    }
+
+    string line;
+    getline(file, line); // Skip the header if present
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        int id, year;
+        string title, plot;
+
+        // Read integer ID directly
+        ss >> id;
+        ss.ignore(); // Ignore the tab separator
+
+        // Read Title
+        getline(ss, title, ',');
+
+        // Read Plot
+        getline(ss, plot, ',');
+
+        // Read integer Year directly
+        ss >> year;
+
+        // Create a new Movie object
+        Movie movie(id, title, plot, year);
+
+        // Add the movie to the Dictionary using its ID as the key
+        bool success = movieDict.add(id, movie);
+        if (!success) {
+            cerr << "Error: Movie with ID " << id << " could not be added to the Dictionary." << endl;
+        }
+    }
+
+    file.close();
+}
 
 void insertActorsToMovies(string filename, BST& actorTree, List<Movie>& movieList) {
     ifstream file(filename);
@@ -155,14 +196,14 @@ void insertActorsToMovies(string filename, BST& actorTree, List<Movie>& movieLis
         ss.ignore();  // Ignore separator
         if (!(ss >> movieID)) continue; // Read movie ID
 
-        //Search for the Actor in BST
+        // Search for the Actor in BST
         BinaryNode* actorNode = actorTree.search(actorID);
         if (!actorNode) {
             cout << "Warning: Actor ID " << actorID << " not found in BST. Skipping entry.\n";
             continue;
         }
 
-        // 2. Search for the Movie in the Linked List
+        // Search for the Movie in the Linked List
         for (int i = 0; i < movieList.getLength(); i++) {
             Movie& movie = movieList.getReference(i);  //  Get reference
             if (movie.getId() == movieID) {
@@ -216,6 +257,34 @@ void addMovie(List<Movie>& movieList) {
     movieList.add(newMovie);
 
     cout << "Movie added successfully with ID: " << id << endl;
+}
+
+// -------------- Function for option 3: Add an actor to a movie
+void addActorToMovie(BST& actorTree, List<Movie>& movieList) {
+    int movieId, actorId;
+    cout << "Enter the Movie ID: ";
+    cin >> movieId;
+
+    cout << "Enter the Actor ID: ";
+    cin >> actorId;
+
+    int movieIndex = movieList.search(movieId);
+    if (movieIndex == -1) {
+        cout << "Movie with ID " << movieId << " not found." << endl;
+        return;  // Exit if movie is not found
+    }
+
+    // Search for the actor in the actorTree
+    BinaryNode* actorNode = actorTree.search(actorId); 
+    if (actorNode == nullptr) {
+        cout << "Actor with ID " << actorId << " not found." << endl;
+        return;  // Exit if actor is not found
+    }
+
+    Movie& movie = movieList.getReference(movieIndex);
+    movie.getActors().insert(actorNode->item);
+
+    cout << "Actor " << actorNode->item.getName() << " added to the movie " << movie.getTitle() << " successfully." << endl;
 }
 
 // -------------- Function for option 5: update movie details
@@ -342,6 +411,21 @@ int main()
     List<Movie> movieList; //creating movie list
     readMovies("movies.csv", movieList); //reading movies.csv and adding to movieList
     
+    //adding movies to movie dictionary
+    /*Dictionary movieDict;
+    readMovies("movies.csv", movieDict);*/
+
+    ////---------------------------- testing movies data
+    //int l = movieDict.getLength();
+    //cout << l << endl;
+    //Movie m = movieDict.get(260368);
+    //Movie m17214 = movieDict.get(6405058);
+    //cout << m.getId() << m.getTitle() << m.getPlot() << m.getYear() << endl;
+    //cout << m17214.getId() << m17214.getTitle() << m17214.getPlot() << m17214.getYear() << endl;
+    ////----------------------------------
+
+
+
     ////---------------------------- testing movies data
     //int l = movieList.getLength();
     //cout << l << endl;
@@ -350,6 +434,7 @@ int main()
     //cout << m.getId() << m.getTitle() << m.getPlot() << m.getYear() << endl;
     //cout << m17214.getId() << m17214.getTitle() << m17214.getPlot() << m17214.getYear() << endl;
     ////----------------------------------
+
 
     //Adding actors to movies----------------
     insertActorsToMovies("cast.csv", actorTree, movieList);
@@ -366,8 +451,16 @@ int main()
 
     int choice;
     
-    do {
+    while(true) {
+
         choice = displayMenu();  // Show menu and get the user's choice
+        // Check if the input is valid
+        if (cin.fail()) {
+            cin.clear();  // Clear error state
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Ignore invalid input
+            cout << "Invalid input. Please enter a valid number for the menu choice." << endl;
+            continue;  // Restart the loop to prompt for a valid input again
+        }
 
         if (choice == 1) 
         {
@@ -400,7 +493,15 @@ int main()
 
         else if (choice == 3) 
         {
-            
+            addActorToMovie(actorTree, movieList);
+
+            //testing data
+            /*for (int i = 0; i < movieList.getLength(); i++) {
+                if (movieList.get(i).getId() == idtest) {
+                    Movie m117600 = movieList.get(i);
+                    m117600.getActors().displaySorted();
+                }
+            }*/
         }
 
         else if (choice == 4) 
@@ -471,6 +572,7 @@ int main()
 
         else if (choice == 0) {
             cout << "\nExiting ..." << endl;
+            break;
         }
 
         else 
@@ -478,7 +580,7 @@ int main()
             cout << "Invalid choice." << endl;
         }
 
-    } while (choice != 0);  // Continue until the user chooses to exit
+    }  // Continue until the user chooses to exit
 
     return 0;
 }
