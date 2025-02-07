@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "BST.h"
 using namespace std;
 
 class Movie
@@ -10,6 +11,7 @@ private:
 	string title;
 	string plot;
 	int year;
+	BST actors;
 
 public:
 	// getters and setters
@@ -17,6 +19,7 @@ public:
 	string getTitle();
 	string getPlot();
 	int getYear();
+	BST& getActors();
 
 	void setId(int id);
 	void setTitle(string title);

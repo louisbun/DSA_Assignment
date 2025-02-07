@@ -18,6 +18,7 @@ int Movie::getId() { return id; }
 string Movie::getTitle() { return title; }
 string Movie::getPlot() { return plot; }
 int Movie::getYear() { return year; }
+BST& Movie::getActors() { return actors; }
 
 void Movie::setId(int id) { this->id = id; }
 void Movie::setTitle(string title) { this->title = title; }
