@@ -173,3 +173,20 @@ void BST::displayActorsByAgeRange(int minAge, int maxAge) {
             << " | Birth Year: " << actors[i]->item.getBirth() << endl;
     }
 }
+
+
+void BST::getActorsInList(ArrayList<Actor>& actors) {
+    inOrderTraversal(root, actors);
+}
+
+void BST::inOrderTraversal(BinaryNode* node, ArrayList<Actor>& actors) {
+    if (node == nullptr) {
+        return;
+    }
+    // Traverse left subtree
+    inOrderTraversal(node->left, actors);
+    // Add the current actor to the list
+    actors.add(node->item);
+    // Traverse right subtree
+    inOrderTraversal(node->right, actors);
+}

@@ -10,7 +10,6 @@
 #include "Dictionary.h"
 
 using namespace std;
-
 Cast castTable;
 
 // Function to read cast.csv and store relationships
@@ -282,6 +281,11 @@ void addActorToMovie(BST& actorTree, List<Movie>& movieList) {
     }
 
     Movie& movie = movieList.getReference(movieIndex);
+    // Check if the actor is already in the movie
+    if (movie.getActors().search(actorId) != nullptr) {  // If search is not null, actor already exists
+        cout << "Actor " << actorNode->item.getName() << " is already in the movie " << movie.getTitle() << "." << endl;
+        return;  // Stop here to prevent duplicate entry
+    }
     movie.getActors().insert(actorNode->item);
 
     cout << "Actor " << actorNode->item.getName() << " added to the movie " << movie.getTitle() << " successfully." << endl;
@@ -400,7 +404,51 @@ void displayRecentMovies(List<Movie> movieList) {
     }
 }
 
+//----------------Function for option 9: display all Actors in a Movie
+void displayActorsInMovie(List<Movie>& movieList) {
 
+    int movieId;
+    int movieIndex;
+
+    while (true) {
+        cout << "Enter Movie ID: ";
+        cin >> movieId;
+
+        // Check if cin failed (non-integer input or other invalid input)
+        if (cin.fail()) {
+            cin.clear();  // Clear the error state
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Ignore the rest of the input
+            cout << "Invalid input. Please enter a valid Movie ID." << endl;
+        }
+        else {
+            // Search for the movieId in the movieList
+            movieIndex = movieList.search(movieId);
+
+            // Check if the movie was found (movieIndex != -1)
+            if (movieIndex == -1) {
+                cout << "Movie ID not found. Please enter a valid Movie ID." << endl;
+            }
+            else {
+                break;  // Valid input and valid movie ID found, exit loop
+            }
+        }
+    }
+
+    Movie m = movieList.get(movieIndex);
+
+    //creating temporary arraylist for actors
+    ArrayList<Actor> temp;
+    m.getActors().getActorsInList(temp); // put all actors in the movie into temp
+    if (temp.getLength() == 0) {
+        cout << "No actors found for this movie." << endl;
+        return;
+    }
+    temp.sortByActorName(); //sorting according to actor's name
+
+    cout << "Displaying all Actors in " << m.getTitle() << " (in alphabetical order)" << endl;
+    cout << "------------------------------------------" << endl;
+    temp.print();
+}
 
 int main()
 {
@@ -558,7 +606,7 @@ int main()
 
         else if (choice == 9)
         {
-
+            displayActorsInMovie(movieList);
         }
 
         else if (choice == 10)

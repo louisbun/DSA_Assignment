@@ -79,7 +79,9 @@ void ArrayList<T>::print()
 {
 	for (int i = 0; i < size; i++) {
 		T item = items[i];
-		cout << "Actor " << i << ". " << item.getName()  << endl;
+		cout << "ID: " << item.getId()
+			<< " | Name: " << item.getName()
+			<< " | Birth Year: " << item.getBirth() << endl;
 	}
 }
 
@@ -88,4 +90,18 @@ template <class T>
 void ArrayList<T>::replace(int index, T item)
 {
 	items[index] = item;
+}
+
+template <class T>
+void ArrayList<T>::sortByActorName() {
+	for (int i = 1; i < size; i++) {
+		T data = items[i];
+
+		int last = i;
+		while (last > 0 && items[last - 1].getName() > data.getName()) {
+			items[last] = items[last - 1];
+			last--;
+		}
+		items[last] = data;
+	}
 }
