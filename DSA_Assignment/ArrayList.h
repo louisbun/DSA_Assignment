@@ -55,5 +55,7 @@ public:
 	void print();
 
 	void replace(int index, T item);
+
+	void sortByActorName();
 };
 

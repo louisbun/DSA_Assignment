@@ -4,7 +4,7 @@
 #include "Movie.h"
 using namespace std;
 
-const int MAX_SIZE = 101;
+const int MAX_SIZE2 = 101;
 typedef int KeyType;
 typedef Actor ItemType;
 typedef Movie ItemType2;
@@ -20,7 +20,7 @@ class Dictionary
 {
 private:
 
-	Node* items[MAX_SIZE];
+	Node* items[MAX_SIZE2];
 	int  size;			// number of items in the Dictionary
 
 public:

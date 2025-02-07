@@ -4,13 +4,13 @@ using namespace std;
 
 Dictionary::Dictionary() {
 	size = 0;
-	for (int i = 0; i < MAX_SIZE; i++) {
+	for (int i = 0; i < MAX_SIZE2; i++) {
 		items[i] = nullptr; // Initialize all buckets to null
 	}
 }
 
 Dictionary::~Dictionary() {
-	for (int i = 0; i < MAX_SIZE; i++) {
+	for (int i = 0; i < MAX_SIZE2; i++) {
 		Node* current = items[i];
 		while (current != nullptr) {
 			Node* temp = current;
@@ -23,7 +23,7 @@ Dictionary::~Dictionary() {
 }
 
 int Dictionary::hash(KeyType key) {
-	return key % MAX_SIZE;
+	return key % MAX_SIZE2;
 }
 
 bool Dictionary::add(KeyType newKey, ItemType2 newItem) {
@@ -118,7 +118,7 @@ int Dictionary::getLength() {
 }
 
 void Dictionary::print() {
-	for (int i = 0; i < MAX_SIZE; i++) {
+	for (int i = 0; i < MAX_SIZE2; i++) {
 		Node* current = items[i];
 		while (current != nullptr) {
 			cout << current->key << " : " << current->item.getTitle() << endl;

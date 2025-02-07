@@ -3,6 +3,7 @@
 #include<iostream>
 using namespace std;
 #include "BinaryNode.h"
+#include "ArrayList.h"
 class BST
 {
 private:
@@ -38,7 +39,9 @@ public:
 	void collectActorsInRange(BinaryNode* node, int minBirth, int maxBirth, BinaryNode* actors[], int& count);
 	void sortActorsByAge(BinaryNode* actors[], int count);
 	
-
+	//collecting the actors into the ArrayList to be displayed alphabetically
+	void getActorsInList(ArrayList<Actor>& actors);
+	void inOrderTraversal(BinaryNode* node, ArrayList<Actor>& actors);
 
 	//// traverse the binary search tree in preorder
 	//void preorder();
