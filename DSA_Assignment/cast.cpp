@@ -193,7 +193,8 @@ Cast::Cast() {
 ActorMovieList* findActor(BinaryNode* actor, ActorMovieList*& head) {
     ActorMovieList* temp = head;
     while (temp) {
-        if (temp->actor == actor) return temp;
+        if (temp->actor == actor) 
+            return temp;
         temp = temp->next;
     }
     return nullptr;
@@ -241,7 +242,7 @@ void Cast::addActorToMovie(BinaryNode* actor, int movieID) {
 }
 
 // Display all movies an actor starred in
-void Cast::displayMoviesByActor(BinaryNode* actor) {
+void Cast::displayMoviesByActor(BinaryNode* actor, List<Movie> movieList) {
     if (!actor) {
         cout << "Actor not found.\n";
         return;
@@ -256,7 +257,9 @@ void Cast::displayMoviesByActor(BinaryNode* actor) {
     cout << "Movies starred in by " << actor->item.getName() << ":\n";
     MovieNode* temp = actorEntry->movieHead;
     while (temp) {
-        cout << "- Movie ID: " << temp->movieID << endl;
+        int index = movieList.search(temp->movieID);
+        Movie movie = movieList.get(index);
+        cout << "- Movie ID: " << temp->movieID << "\tTitle:" << movie.getTitle() <<endl;
         temp = temp->next;
     }
 }
