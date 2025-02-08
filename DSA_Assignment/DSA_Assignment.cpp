@@ -520,6 +520,11 @@ void rateMovie(List<Movie>& movieList) {
     cout << "Movie " << m.getTitle() << " has been updated with a rating of " << m.getRating() << endl;
 }
 
+void recommendActors(BST& actorTree) 
+{
+    actorTree.displayActorsByRating();
+
+}
 
 int main()
 {
@@ -712,7 +717,7 @@ int main()
 
         else if (choice == 13) 
         {
-
+            recommendActors(actorTree);
         }
 
         else if (choice == 14) 

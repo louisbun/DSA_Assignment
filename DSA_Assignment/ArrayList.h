@@ -57,5 +57,7 @@ public:
 	void replace(int index, T item);
 
 	void sortByActorName();
+
+	void mergeSortRating();
 };
 

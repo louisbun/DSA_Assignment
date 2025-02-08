@@ -105,3 +105,53 @@ void ArrayList<T>::sortByActorName() {
 		items[last] = data;
 	}
 }
+
+
+
+template <class T>
+void mergesort(T array[], int first, int last) {
+	if (first < last) {  // More than one element
+		int mid = (first + last) / 2;
+		mergesort(array, first, mid);     // Sort left half
+		mergesort(array, mid + 1, last);  // Sort right half
+		merge(array, first, mid, last);   // Merge two halves
+	}
+}
+
+template <class T>
+void merge(T array[], int first, int mid, int last) {
+	T tempArray[MAX_SIZE];  // Temporary array
+
+	// Define boundaries of two subarrays
+	int first1 = first, last1 = mid;
+	int first2 = mid + 1, last2 = last;
+
+	int index = first1;
+
+	// Merge both subarrays by rating (Descending order)
+	while (first1 <= last1 && first2 <= last2) {
+		if (array[first1].getRating() >= array[first2].getRating()) {
+			tempArray[index++] = array[first1++];
+		}
+		else {
+			tempArray[index++] = array[first2++];
+		}
+	}
+
+	// Copy remaining elements
+	while (first1 <= last1)
+		tempArray[index++] = array[first1++];
+
+	while (first2 <= last2)
+		tempArray[index++] = array[first2++];
+
+	// Copy back sorted elements into original array
+	for (index = first; index <= last; index++)
+		array[index] = tempArray[index];
+}
+template <class T>
+void ArrayList<T>::mergeSortRating()
+{
+	if (size > 1)
+		mergesort(items, 0, size - 1);
+};
