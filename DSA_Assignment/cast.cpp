@@ -242,7 +242,7 @@ void Cast::addActorToMovie(BinaryNode* actor, int movieID) {
 }
 
 // Display all movies an actor starred in
-void Cast::displayMoviesByActor(BinaryNode* actor, List<Movie> movieList) {
+void Cast::displayMoviesByActor(BinaryNode* actor, List<Movie>& movieList) {
     if (!actor) {
         cout << "Actor not found.\n";
         return;

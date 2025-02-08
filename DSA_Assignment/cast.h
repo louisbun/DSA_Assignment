@@ -94,7 +94,7 @@ private:
 public:
     Cast();
     void addActorToMovie(BinaryNode* actor, int movieID);
-    void displayMoviesByActor(BinaryNode* actor, List<Movie> movieList);
+    void displayMoviesByActor(BinaryNode* actor, List<Movie>& movieList);
     void displayActorsByMovie(int movieID);
     void displayKnownActors(BinaryNode* actor, BST& actorTree);
 };
