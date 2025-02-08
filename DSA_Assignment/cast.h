@@ -51,6 +51,7 @@
 #include <iostream>
 #include "BST.h"
 #include "BinaryNode.h"
+#include "List.h"
 
 using namespace std;
 
@@ -93,7 +94,7 @@ private:
 public:
     Cast();
     void addActorToMovie(BinaryNode* actor, int movieID);
-    void displayMoviesByActor(BinaryNode* actor);
+    void displayMoviesByActor(BinaryNode* actor, List<Movie> movieList);
     void displayActorsByMovie(int movieID);
     void displayKnownActors(BinaryNode* actor, BST& actorTree);
 };

@@ -40,7 +40,7 @@ void readCast(string filename, Cast& castTable, BST& actorTree) {
     }
 
     file.close();
-    cout << "Cast relationships loaded successfully!\n";
+    /*cout << "Cast relationships loaded successfully!\n";*/
 }
 
 
@@ -72,7 +72,7 @@ void readActors(string filename, BST& actorTree) {
     }
 
     file.close();
-    cout << "Total Actors Inserted: " << actorCount << endl;  // Final count
+    //cout << "Total Actors Inserted: " << actorCount << endl;  // Final count
 }
 
 
@@ -92,6 +92,10 @@ int displayMenu() {
     cout << "\n[8]  Display all movies an actor starred in";
     cout << "\n[9]  Display all actors in a movie";
     cout << "\n[10] Display a list of all actors that a particular actor knows";
+    cout << "\n[11] Rate an actor";
+    cout << "\n[12] Rate a movie";
+    cout << "\n[13] Recommend based on actor ratings";
+    cout << "\n[14] Recommend based on movie ratings";
     cout << "\n[0]  Exit";
     cout << "\n----------------------------------------------------------------";
     cout << "\nChoose an option: ";
@@ -259,7 +263,7 @@ void addMovie(List<Movie>& movieList) {
 }
 
 // -------------- Function for option 3: Add an actor to a movie
-void addActorToMovie(BST& actorTree, List<Movie>& movieList) {
+void addActorToMovie(BST& actorTree, List<Movie>& movieList, Cast& castTable) {
     int movieId, actorId;
     cout << "Enter the Movie ID: ";
     cin >> movieId;
@@ -287,6 +291,7 @@ void addActorToMovie(BST& actorTree, List<Movie>& movieList) {
         return;  // Stop here to prevent duplicate entry
     }
     movie.getActors().insert(actorNode->item);
+    castTable.addActorToMovie(actorNode, movieId);
 
     cout << "Actor " << actorNode->item.getName() << " added to the movie " << movie.getTitle() << " successfully." << endl;
 }
@@ -498,8 +503,8 @@ int main()
     ////------------------------------------------------------------------------
 
     int choice;
-    
-    while(true) {
+    bool exit = false;
+    while(exit==false) {
 
         choice = displayMenu();  // Show menu and get the user's choice
         // Check if the input is valid
@@ -541,7 +546,7 @@ int main()
 
         else if (choice == 3) 
         {
-            addActorToMovie(actorTree, movieList);
+            addActorToMovie(actorTree, movieList, castTable);
 
             //testing data
             /*for (int i = 0; i < movieList.getLength(); i++) {
@@ -601,7 +606,7 @@ int main()
             cout << "Enter Actor ID: ";
             cin >> actorID;
             BinaryNode* actor = actorTree.search(actorID);
-            castTable.displayMoviesByActor(actor);
+            castTable.displayMoviesByActor(actor, movieList);
         }
 
         else if (choice == 9)
@@ -618,9 +623,29 @@ int main()
             castTable.displayKnownActors(actor, actorTree);
         }
 
+        else if (choice == 11) 
+        {
+
+        }
+
+        else if (choice == 12) 
+        {
+
+        }
+
+        else if (choice == 13) 
+        {
+
+        }
+
+        else if (choice == 14) 
+        {
+
+        }
+
         else if (choice == 0) {
             cout << "\nExiting ..." << endl;
-            break;
+            exit = true;
         }
 
         else 
