@@ -520,14 +520,11 @@ void rateMovie(List<Movie>& movieList) {
     cout << "Movie " << m.getTitle() << " has been updated with a rating of " << m.getRating() << endl;
 }
 
+//----------------Function for option 13: Recommend Actors base on rating---------------
 void recommendActors(BST& actorTree) 
 {
     actorTree.displayActorsByRating();
-
 }
-
-
-
 
 //----------------Function for option 14: Recommend Movies base on rating---------------
 void recommendMovies(List<Movie>& movieList){
