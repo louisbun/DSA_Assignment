@@ -8,6 +8,7 @@
 #include "Actor.h"
 #include "List.h"
 #include "Dictionary.h"
+#include <iomanip>
 
 using namespace std;
 Cast castTable;
@@ -76,8 +77,7 @@ void readActors(string filename, BST& actorTree) {
 }
 
 
-int displayMenu() {
-    int choice;
+void displayMenu() {
 
     cout << "\n------------------- Menu ---------------------------------------";
     cout << "\nAdministrator Options" << endl;
@@ -98,12 +98,6 @@ int displayMenu() {
     cout << "\n[14] Recommend based on movie ratings";
     cout << "\n[0]  Exit";
     cout << "\n----------------------------------------------------------------";
-    cout << "\nChoose an option: ";
-
-    cin >> choice;
-    cin.ignore(); // To clear newline from input buffer
-
-    return choice;
 }
 
 void readMovies(string filename, List<Movie>& movieList) {
@@ -455,6 +449,78 @@ void displayActorsInMovie(List<Movie>& movieList) {
     temp.print();
 }
 
+//----------------Function for option 11: rating an actor---------------
+void rateActor(BST& actorTree) {
+    int actorId;
+    float rating;
+
+    cout << "Enter Actor ID: ";
+    cin >> actorId;
+
+    BinaryNode* actorNode = actorTree.search(actorId);
+    if (actorNode == nullptr) {
+        cout << "Actor not found!" << endl;
+        return;
+    }
+
+    // Validate rating input
+    while (true) {
+        cout << "Enter new rating (0-10): ";
+        cin >> rating;
+
+        // Check if input is a number and within range
+        if (cin.fail() || rating < 0 || rating > 10) {
+            cout << "Invalid rating. Must be a number between 0 and 10." << endl;
+            cin.clear(); // Clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+        }
+        else {
+            break; // Valid input, exit loop
+        }
+    }
+
+    actorNode->item.addRating(rating);
+    cout << fixed << setprecision(1);
+    cout << "Actor " << actorNode->item.getName() << " has been updated with a rating of " << actorNode->item.getRating() << endl;
+}
+
+//----------------Function for option 12: rating an movie---------------
+void rateMovie(List<Movie>& movieList) {
+    int movieId;
+    float rating;
+
+    cout << "Enter Movie ID: ";
+    cin >> movieId;
+
+    int movieIndex = movieList.search(movieId);
+    if (movieIndex == -1) {
+        cout << "Movie not found!" << endl;
+        return;
+    }
+    Movie& m = movieList.getReference(movieIndex); 
+
+    // Validate rating input
+    while (true) {
+        cout << "Enter new rating (0-10): ";
+        cin >> rating;
+
+        // Check if input is a number and within range
+        if (cin.fail() || rating < 0 || rating > 10) {
+            cout << "Invalid rating. Must be a number between 0 and 10." << endl;
+            cin.clear(); // Clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+        }
+        else {
+            break; // Valid input, exit loop
+        }
+    }
+
+    m.addRating(rating);
+    cout << fixed << setprecision(1);
+    cout << "Movie " << m.getTitle() << " has been updated with a rating of " << m.getRating() << endl;
+}
+
+
 int main()
 {
     BST actorTree;
@@ -506,13 +572,24 @@ int main()
     bool exit = false;
     while(exit==false) {
 
-        choice = displayMenu();  // Show menu and get the user's choice
-        // Check if the input is valid
-        if (cin.fail()) {
-            cin.clear();  // Clear error state
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Ignore invalid input
-            cout << "Invalid input. Please enter a valid number for the menu choice." << endl;
-            continue;  // Restart the loop to prompt for a valid input again
+        displayMenu();  // Show menu and get the user's choice
+        // Input validation loop
+        while (true) {
+            cout << "\nChoose an option: ";
+            cin >> choice;
+
+            if (cin.fail()) {  // If input is not a valid integer
+                cin.clear();  // Clear error state
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Ignore invalid input
+                cout << "Invalid input. Please enter a valid number for the menu choice." << endl;
+            }
+            else if (choice < 0 || choice > 14) {  // Ensure input is within valid range
+                cout << "Invalid choice. Please enter a number between 0 and 14." << endl;
+            }
+            else {
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear buffer in case of extra input
+                break;  // Exit loop if input is valid
+            }
         }
 
         if (choice == 1) 
@@ -625,12 +702,12 @@ int main()
 
         else if (choice == 11) 
         {
-
+            rateActor(actorTree);
         }
 
         else if (choice == 12) 
         {
-
+            rateMovie(movieList);
         }
 
         else if (choice == 13) 
@@ -648,10 +725,10 @@ int main()
             exit = true;
         }
 
-        else 
+        /*else 
         {
             cout << "Invalid choice." << endl;
-        }
+        }*/
 
     }  // Continue until the user chooses to exit
 

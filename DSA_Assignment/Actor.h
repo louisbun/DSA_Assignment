@@ -9,13 +9,18 @@ private:
 	int id;
 	string name;
 	int birth;
-	 
+	float rating;
+	float totalRating;
+	int ratingCount;
 
 public:
 	// getters and setters
 	int getId();
 	string getName();
 	int getBirth();
+	float getRating();
+	float getTotalRating();
+	int getRatingCount();
 
 	void setId(int id);
 	void setName(string name);
@@ -27,5 +32,5 @@ public:
 	Actor(int id, string name, int birth);
 
 	// methods
-
+	void addRating(float newRating);
 };
