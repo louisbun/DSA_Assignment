@@ -230,3 +230,69 @@ int List<T>::search(int movieId) {
 	// Movie not found, return -1
 	return -1;
 }
+
+
+template<class T>
+void List<T>::mergeSortByRating() {
+	firstNode = mergeSortByRating(firstNode);
+}
+
+template<class T>
+struct List<T>::Node* List<T>::mergeSortByRating(Node* head) {
+	if (head == nullptr || head->next == nullptr) {
+		return head;  // Base case: single element or empty list is already sorted
+	}
+
+	// Step 1: Split the list into two halves
+	Node* mid = getMiddleByRating(head);
+	Node* left = head;
+	Node* right = mid->next;
+	mid->next = nullptr;  // Split the list
+
+	// Step 2: Recursively sort the two halves
+	left = mergeSortByRating(left);
+	right = mergeSortByRating(right);
+
+	// Step 3: Merge the two sorted halves
+	return mergeByRating(left, right);
+}
+
+// Helper function to find the middle of the list
+template<class T>
+struct List<T>::Node* List<T>::getMiddleByRating(Node* head) {
+	if (head == nullptr) {
+		return nullptr;
+	}
+
+	Node* slow = head;
+	Node* fast = head;
+
+	// Move fast by 2 and slow by 1
+	while (fast->next != nullptr && fast->next->next != nullptr) {
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+
+	return slow;
+}
+
+// Merge two sorted lists into one sorted list
+template<class T>
+struct List<T>::Node* List<T>::mergeByRating(Node* left, Node* right) {
+	if (left == nullptr) return right;
+	if (right == nullptr) return left;
+
+	Node* mergedHead = nullptr;
+
+	// Compare nodes and merge
+	if (left->item.getRating() > right->item.getRating()) {
+		mergedHead = left;
+		mergedHead->next = mergeByRating(left->next, right);
+	}
+	else {
+		mergedHead = right;
+		mergedHead->next = mergeByRating(left, right->next);
+	}
+
+	return mergedHead;
+}

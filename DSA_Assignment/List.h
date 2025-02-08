@@ -20,6 +20,10 @@ private:
 	Node* getMiddle(Node* head);
 	Node* merge(Node* left, Node* right);
 
+	Node* mergeSortByRating(Node* head);
+	Node* getMiddleByRating(Node* head);
+	Node* mergeByRating(Node* left, Node* right);
+
 public:
 	// constructor
 	List();
@@ -76,5 +80,6 @@ public:
 	int search(int movieId);
 
 	void mergeSort();
+	void mergeSortByRating();
 };
 
