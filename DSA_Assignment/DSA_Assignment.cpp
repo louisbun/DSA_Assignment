@@ -521,6 +521,40 @@ void rateMovie(List<Movie>& movieList) {
 }
 
 
+
+
+
+//----------------Function for option 14: Recommend Movies base on rating---------------
+void recommendMovies(List<Movie>& movieList){
+
+    List<Movie> temp;
+    for (int i = 0; i < movieList.getLength(); i++) {
+        Movie m = movieList.get(i);
+        if (m.getRating() > 0) {
+            temp.add(m);
+        }
+    }
+
+    temp.mergeSortByRating(); // sorting by rating
+
+    cout << "Top 5 Recommended Movies base on Rating" << endl;
+    for (int i = 0; i < temp.getLength() && i < 5; i++) {
+        cout << i + 1 << "." << endl;
+        cout << "----------" << endl;
+        Movie m = temp.get(i);
+
+        cout << "Movie ID: " << m.getId() << endl;
+        cout << "Title: " << m.getTitle() << endl;
+        cout << "Year: " << m.getYear() << endl;
+        cout << "Rating: " << m.getRating() << " / 10" << endl;
+        cout << endl;
+    }
+
+    if (temp.getLength() == 0) {
+        cout << "No Movies has been rated yet." << endl;
+    }
+}
+
 int main()
 {
     BST actorTree;
@@ -717,7 +751,7 @@ int main()
 
         else if (choice == 14) 
         {
-
+            recommendMovies(movieList);
         }
 
         else if (choice == 0) {
