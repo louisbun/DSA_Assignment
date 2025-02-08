@@ -13,6 +13,10 @@ private:
 	int year;
 	BST actors;
 
+	float rating;
+	float totalRating;
+	int ratingCount;
+
 public:
 	// getters and setters
 	int getId();
@@ -20,6 +24,10 @@ public:
 	string getPlot();
 	int getYear();
 	BST& getActors();
+
+	float getRating();
+	float getTotalRating();
+	int getRatingCount();
 
 	void setId(int id);
 	void setTitle(string title);
@@ -31,7 +39,7 @@ public:
 	Movie(int id, string title, string plot, int year);
 
 	//methods
-
+	void addRating(float newRating);
 
 };
 
