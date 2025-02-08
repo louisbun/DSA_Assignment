@@ -43,9 +43,8 @@ public:
 	void getActorsInList(ArrayList<Actor>& actors);
 	void inOrderTraversal(BinaryNode* node, ArrayList<Actor>& actors);
 
-	void mergeSortRating(BinaryNode* actors[], int count);
 	void displayActorsByRating();
-	void collectAllActors(BinaryNode* node, ArrayList<Actor>& temp, int& count);
+	void collectAllActors(BinaryNode* node, ArrayList<Actor>& temp);
 
 	//// traverse the binary search tree in preorder
 	//void preorder();

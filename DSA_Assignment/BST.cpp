@@ -95,29 +95,29 @@ void BST::collectActorsInRange(BinaryNode* node, int minBirth, int maxBirth, Bin
 
 
 
-void BST::collectAllActors(BinaryNode* node, ArrayList<Actor>& temp, int& count)
+void BST::collectAllActors(BinaryNode* node, ArrayList<Actor>& temp)
 {
     if (!node) return;
-    collectAllActors(node->left, temp, count);
-    temp.add(node->item);
-    collectAllActors(node->right, temp, count);
+    collectAllActors(node->left, temp);
+    // Check if actor's rating is greater than 0 before adding
+    if (node->item.getRating() > 0) {
+        temp.add(node->item);  // Add the actor to the arrayList
+    }
+    collectAllActors(node->right, temp);
 }
 
 void BST::displayActorsByRating()
 {
-    const int MAX_ACTORS = 20000;  // Assume max 15000 actors
-    BinaryNode* actors[MAX_ACTORS];
-    int count = 0;
     ArrayList<Actor> temp;
     // Collect all actors into the array
-    collectAllActors(root, temp, count);
+    collectAllActors(root, temp);
 
     // Sort the array by rating (descending order)
     temp.mergeSortRating();
 
     // Print top 5 highest-rated actors
     cout << "Top 5 Highest Rated Actors:\n";
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5 && temp.get(i).getRating() != 0; i++) {
         cout << "ID: " << temp.get(i).getId()
             << " | Name: " << temp.get(i).getName()
             << " | Birth Year: " << temp.get(i).getBirth()
