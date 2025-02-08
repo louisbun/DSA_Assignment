@@ -93,6 +93,39 @@ void BST::collectActorsInRange(BinaryNode* node, int minBirth, int maxBirth, Bin
 //    }
 //}
 
+
+
+void BST::collectAllActors(BinaryNode* node, ArrayList<Actor>& temp, int& count)
+{
+    if (!node) return;
+    collectAllActors(node->left, temp, count);
+    temp.add(node->item);
+    collectAllActors(node->right, temp, count);
+}
+
+void BST::displayActorsByRating()
+{
+    const int MAX_ACTORS = 20000;  // Assume max 15000 actors
+    BinaryNode* actors[MAX_ACTORS];
+    int count = 0;
+    ArrayList<Actor> temp;
+    // Collect all actors into the array
+    collectAllActors(root, temp, count);
+
+    // Sort the array by rating (descending order)
+    temp.mergeSortRating();
+
+    // Print top 5 highest-rated actors
+    cout << "Top 5 Highest Rated Actors:\n";
+    for (int i = 0; i < 5; i++) {
+        cout << "ID: " << temp.get(i).getId()
+            << " | Name: " << temp.get(i).getName()
+            << " | Birth Year: " << temp.get(i).getBirth()
+            << " | Rating: " << temp.get(i).getRating() << endl;
+    }  
+}
+
+
 // Merge function for Merge Sort
 void merge(BinaryNode* actors[], int left, int mid, int right) {
     int leftSize = mid - left + 1;
