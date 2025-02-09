@@ -23,9 +23,6 @@ public:
 	void insert(ItemType item);
 	void insert(BinaryNode*& root, ItemType item);
 
-	// delete an item from the binary search tree
-	void remove(ItemType target);
-	void remove(BinaryNode*& root, ItemType target);
 
 	// traverse the binary search tree in inorder
 	void displaySorted();
@@ -46,28 +43,5 @@ public:
 	void displayActorsByRating();
 	void collectAllActors(BinaryNode* node, ArrayList<Actor>& temp);
 
-	//// traverse the binary search tree in preorder
-	//void preorder();
-	//void preorder(BinaryNode* t);
-
-	//// traverse the binary search tree in postorder
-	//void postorder();
-	//void postorder(BinaryNode* t);
-
-	//// check if the binary search tree is empty
-	//bool isEmpty();
-
-	//// ----------------- to be implemented ------------------
- // // count the number of nodes in the binary search tree
-	//int countNodes();
-	//int countNodes(BinaryNode* t);
-
-	//// compute the height of the binary search tree
-	//int getHeight();
-	//int getHeight(BinaryNode* t);
-
-
-	//// check if the binary search tree is balanced
-	//bool isBalanced();
-	//bool isBalanced(BinaryNode* t);
+	
 };

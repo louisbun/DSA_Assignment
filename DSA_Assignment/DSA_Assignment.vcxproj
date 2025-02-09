@@ -128,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="ActorBST.cpp" />
     <ClCompile Include="ArrayList.cpp" />
     <ClCompile Include="BST.cpp" />
     <ClCompile Include="cast.cpp" />
@@ -139,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="ActorBST.h" />
     <ClInclude Include="ArrayList.h" />
     <ClInclude Include="BinaryNode.h" />
     <ClInclude Include="BST.h" />
