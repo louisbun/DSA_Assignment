@@ -132,7 +132,7 @@ void Cast::displayKnownActors(BinaryNode* actor, BST& actorTree) {
     }
 
     string mainActorName = actor->item.getName();
-    cout << "Actors known by " << mainActorName ;
+    cout << "Actors known by " << mainActorName << endl ;
 
     struct KnownActorNode {
         BinaryNode* actor;
