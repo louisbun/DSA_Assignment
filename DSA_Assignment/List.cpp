@@ -296,3 +296,44 @@ struct List<T>::Node* List<T>::mergeByRating(Node* left, Node* right) {
 
 	return mergedHead;
 }
+
+template<class T>
+void List<T>::mergeSortByName() {
+	firstNode = mergeSortByName(firstNode);
+}
+
+template<class T>
+struct List<T>::Node* List<T>::mergeSortByName(Node* head) {
+	if (head == nullptr || head->next == nullptr) {
+		return head;
+	}
+
+	Node* mid = getMiddle(head);
+	Node* left = head;
+	Node* right = mid->next;
+	mid->next = nullptr;
+
+	left = mergeSortByName(left);
+	right = mergeSortByName(right);
+
+	return mergeByName(left, right);
+}
+
+template<class T>
+struct List<T>::Node* List<T>::mergeByName(Node* left, Node* right) {
+	if (left == nullptr) return right;
+	if (right == nullptr) return left;
+
+	Node* mergedHead = nullptr;
+
+	if (left->item.getTitle() < right->item.getTitle()) {
+		mergedHead = left;
+		mergedHead->next = mergeByName(left->next, right);
+	}
+	else {
+		mergedHead = right;
+		mergedHead->next = mergeByName(left, right->next);
+	}
+
+	return mergedHead;
+}

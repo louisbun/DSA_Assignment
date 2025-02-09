@@ -24,6 +24,10 @@ private:
 	Node* getMiddleByRating(Node* head);
 	Node* mergeByRating(Node* left, Node* right);
 
+	Node* mergeSortByName(Node* head);
+	Node* mergeByName(Node* left, Node* right);
+
+
 public:
 	// constructor
 	List();
@@ -81,5 +85,7 @@ public:
 
 	void mergeSort();
 	void mergeSortByRating();
+	void mergeSortByName();
+
 };
 

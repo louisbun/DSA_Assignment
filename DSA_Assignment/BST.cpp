@@ -80,18 +80,6 @@ void BST::collectActorsInRange(BinaryNode* node, int minBirth, int maxBirth, Bin
     collectActorsInRange(node->right, minBirth, maxBirth, actors, count);
 }
 
-// Sort actors by birth year using Bubble Sort
-//void BST::sortActorsByAge(BinaryNode* actors[], int count) {
-//    for (int i = 0; i < count - 1; i++) {
-//        for (int j = 0; j < count - i - 1; j++) {
-//            if (actors[j]->item.getBirth() > actors[j + 1]->item.getBirth()) {
-//                BinaryNode* temp = actors[j];
-//                actors[j] = actors[j + 1];
-//                actors[j + 1] = temp;
-//            }
-//        }
-//    }
-//}
 
 
 
@@ -120,7 +108,6 @@ void BST::displayActorsByRating()
     for (int i = 0; i < 5 && temp.get(i).getRating() != 0; i++) {
         cout << "ID: " << temp.get(i).getId()
             << " | Name: " << temp.get(i).getName()
-            << " | Birth Year: " << temp.get(i).getBirth()
             << " | Rating: " << temp.get(i).getRating() << endl;
     }  
 }
