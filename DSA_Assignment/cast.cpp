@@ -132,7 +132,7 @@ void Cast::displayKnownActors(BinaryNode* actor, BST& actorTree) {
     }
 
     string mainActorName = actor->item.getName();
-    cout << "Actors known by " << mainActorName << ":\n";
+    cout << "Actors known by " << mainActorName ;
 
     struct KnownActorNode {
         BinaryNode* actor;
@@ -142,12 +142,15 @@ void Cast::displayKnownActors(BinaryNode* actor, BST& actorTree) {
 
     KnownActorNode* knownActors = nullptr;
 
-    // Collect direct connections
+    // Collect first-level connections
     ActorMovieList* actorEntry = findActor(actor, actorMovieHead);
     if (!actorEntry) {
         cout << mainActorName << " has no known connections.\n";
         return;
     }
+
+    // Use a temporary list to store first-level co-actors
+    KnownActorNode* firstLevelActors = nullptr;
 
     for (MovieNode* movie = actorEntry->movieHead; movie; movie = movie->next) {
         MovieActorList* movieEntry = findMovie(movie->movieID, movieActorHead);
@@ -167,19 +170,62 @@ void Cast::displayKnownActors(BinaryNode* actor, BST& actorTree) {
                     KnownActorNode* newNode = new KnownActorNode(coActor->actor);
                     newNode->next = knownActors;
                     knownActors = newNode;
+
+                    // Also store first-level connections for second-level expansion
+                    KnownActorNode* newFirstLevel = new KnownActorNode(coActor->actor);
+                    newFirstLevel->next = firstLevelActors;
+                    firstLevelActors = newFirstLevel;
                 }
             }
         }
     }
 
-    // combine list
+    // Collect second-level connections (co-actors of first-level connections)
+    for (KnownActorNode* firstLevel = firstLevelActors; firstLevel; firstLevel = firstLevel->next) {
+        ActorMovieList* firstLevelEntry = findActor(firstLevel->actor, actorMovieHead);
+        if (firstLevelEntry) {
+            for (MovieNode* movie = firstLevelEntry->movieHead; movie; movie = movie->next) {
+                MovieActorList* movieEntry = findMovie(movie->movieID, movieActorHead);
+                for (ActorNode* coActor = movieEntry->actorHead; coActor; coActor = coActor->next) {
+                    if (coActor->actor != actor && coActor->actor != firstLevel->actor) {
+                        // Check if already in the list
+                        KnownActorNode* temp = knownActors;
+                        bool exists = false;
+                        while (temp) {
+                            if (temp->actor == coActor->actor) {
+                                exists = true;
+                                break;
+                            }
+                            temp = temp->next;
+                        }
+                        if (!exists) {
+                            KnownActorNode* newNode = new KnownActorNode(coActor->actor);
+                            newNode->next = knownActors;
+                            knownActors = newNode;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Print combined list
     for (KnownActorNode* temp = knownActors; temp; temp = temp->next) {
         cout << "- " << temp->actor->item.getName() << " (ID: " << temp->actor->item.getId() << ")\n";
     }
+
+    // Free memory
     while (knownActors) {
         KnownActorNode* temp = knownActors;
         knownActors = knownActors->next;
         delete temp;
     }
+
+    while (firstLevelActors) {
+        KnownActorNode* temp = firstLevelActors;
+        firstLevelActors = firstLevelActors->next;
+        delete temp;
+    }
 }
+
 

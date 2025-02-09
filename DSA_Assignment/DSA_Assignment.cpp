@@ -371,7 +371,7 @@ void updateMovie(List<Movie>& movieList) {
 }
 
 //----------------Function for option 7: display Movies made within the past 3 years
-void displayRecentMovies(List<Movie> movieList) {
+void displayRecentMovies(List<Movie>& movieList) {
 
     // Create a temporary list to store movies made within the last 3 years
     List<Movie> recentMovies;
