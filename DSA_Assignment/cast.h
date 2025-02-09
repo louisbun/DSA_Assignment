@@ -6,21 +6,21 @@
 
 using namespace std;
 
-// Linked list node for storing movie IDs
+
 struct MovieNode {
     int movieID;
     MovieNode* next;
     MovieNode(int id) : movieID(id), next(nullptr) {}
 };
 
-// Linked list node for storing actors (BinaryNode* instead of actorID)
+
 struct ActorNode {
     BinaryNode* actor;
     ActorNode* next;
     ActorNode(BinaryNode* actorNode) : actor(actorNode), next(nullptr) {}
 };
 
-// Linked list for storing all movies an actor has acted in
+
 struct ActorMovieList {
     BinaryNode* actor;
     MovieNode* movieHead;
@@ -28,7 +28,7 @@ struct ActorMovieList {
     ActorMovieList(BinaryNode* actorNode) : actor(actorNode), movieHead(nullptr), next(nullptr) {}
 };
 
-// Linked list for storing all actors in a movie
+
 struct MovieActorList {
     int movieID;
     ActorNode* actorHead;
@@ -36,7 +36,7 @@ struct MovieActorList {
     MovieActorList(int id) : movieID(id), actorHead(nullptr), next(nullptr) {}
 };
 
-// Class to manage actor-movie relationships
+
 class Cast {
 private:
     ActorMovieList* actorMovieHead; // Stores actors & their movies
@@ -44,9 +44,25 @@ private:
 
 public:
     Cast();
+
+    // Add an actor-movie relationship
+    // pre : actor is a valid BinaryNode pointer, movieID is a valid integer
+    // post: updates actorMovieHead and movieActorHead to include the new relationship
     void addActorToMovie(BinaryNode* actor, int movieID);
+
+    // Display all movies of a given actor
+    // pre : actor is a valid BinaryNode pointer, movieList contains valid movies
+    // post: prints all movies associated with the given actor in sorted order
     void displayMoviesByActor(BinaryNode* actor, List<Movie>& movieList);
+
+    // Display all actors in a movie
+    // pre : movieID is a valid integer
+    // post: prints all actors associated with the given movie
     void displayActorsByMovie(int movieID);
+
+    // Display all actors that a particular actor knows
+    // pre : actor is a valid BinaryNode pointer, actorTree contains all actors
+    // post: prints a list of actors the given actor has worked with
     void displayKnownActors(BinaryNode* actor, BST& actorTree);
 };
 

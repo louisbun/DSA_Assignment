@@ -6,7 +6,10 @@ Cast::Cast() {
     movieActorHead = nullptr;
 }
 
-// Helper function to find an actor in actorMovieHead
+// function to find an actor in actorMovieHead
+// pre : actor is a valid BinaryNode pointer, head points to the start of the list
+// post: none
+// return: pointer to the ActorMovieList entry if found, otherwise nullptr
 ActorMovieList* findActor(BinaryNode* actor, ActorMovieList*& head) {
     ActorMovieList* temp = head;
     while (temp) {
@@ -17,7 +20,10 @@ ActorMovieList* findActor(BinaryNode* actor, ActorMovieList*& head) {
     return nullptr;
 }
 
-// Helper function to find a movie in movieActorHead
+// function to find a movie in movieActorHead
+// pre : movieID is a valid integer, head points to the start of the list
+// post: none
+// return: pointer to the MovieActorList entry if found, otherwise nullptr
 MovieActorList* findMovie(int movieID, MovieActorList*& head) {
     MovieActorList* temp = head;
     while (temp) {
@@ -28,6 +34,8 @@ MovieActorList* findMovie(int movieID, MovieActorList*& head) {
 }
 
 // Add an actor-movie relationship
+// pre : actor is a valid BinaryNode pointer, movieID is a valid integer
+// post: updates actorMovieHead and movieActorHead to include the new relationship
 void Cast::addActorToMovie(BinaryNode* actor, int movieID) {
     if (!actor) return; // Prevent inserting null actors
 
@@ -58,6 +66,9 @@ void Cast::addActorToMovie(BinaryNode* actor, int movieID) {
     movieEntry->actorHead = newActor;
 }
 
+// Display all movies of a given actor
+// pre : actor is a valid BinaryNode pointer, movieList contains valid movies
+// post: prints all movies associated with the given actor in sorted order
 void Cast::displayMoviesByActor(BinaryNode* actor, List<Movie>& movieList) {
     if (!actor) {
         cout << "Actor not found.\n";
@@ -94,6 +105,8 @@ void Cast::displayMoviesByActor(BinaryNode* actor, List<Movie>& movieList) {
 
 
 // Display all actors in a movie
+// pre : movieID is a valid integer
+// post: prints all actors associated with the given movie
 void Cast::displayActorsByMovie(int movieID) {
     MovieActorList* movieEntry = findMovie(movieID, movieActorHead);
     if (!movieEntry) {
@@ -110,6 +123,8 @@ void Cast::displayActorsByMovie(int movieID) {
 }
 
 // Display all actors that a particular actor knows
+// pre : actor is a valid BinaryNode pointer, actorTree contains all actors
+// post: prints a list of actors the given actor has worked with
 void Cast::displayKnownActors(BinaryNode* actor, BST& actorTree) {
     if (!actor) {
         cout << "Actor not found.\n";
@@ -127,7 +142,7 @@ void Cast::displayKnownActors(BinaryNode* actor, BST& actorTree) {
 
     KnownActorNode* knownActors = nullptr;
 
-    // Collect first-level connections
+    // Collect direct connections
     ActorMovieList* actorEntry = findActor(actor, actorMovieHead);
     if (!actorEntry) {
         cout << mainActorName << " has no known connections.\n";
@@ -157,12 +172,10 @@ void Cast::displayKnownActors(BinaryNode* actor, BST& actorTree) {
         }
     }
 
-    // Print combined list
+    // combine list
     for (KnownActorNode* temp = knownActors; temp; temp = temp->next) {
         cout << "- " << temp->actor->item.getName() << " (ID: " << temp->actor->item.getId() << ")\n";
     }
-
-    // Free memory
     while (knownActors) {
         KnownActorNode* temp = knownActors;
         knownActors = knownActors->next;
